@@ -88,10 +88,13 @@ module "alb" {
     #     status_code = "HTTP_301"
     #   }
     # }
-
     http = {
-      port            = 80
-      protocol        = "HTTP"
+      port     = 80
+      protocol = "HTTP"
+      redirect = {
+        port        = "80"
+        protocol    = "HTTP"
+      }
     }
   }
 
