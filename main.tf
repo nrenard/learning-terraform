@@ -78,25 +78,34 @@ module "alb" {
   #   }
   # }
 
-  listeners = {
-    # ex-http-https-redirect = {
-    #   port     = 80
-    #   protocol = "HTTP"
-    #   redirect = {
-    #     port        = "443"
-    #     protocol    = "HTTPS"
-    #     status_code = "HTTP_301"
-    #   }
-    # }
-    http = {
-      port     = 80
-      protocol = "HTTP"
-      redirect = {
-        port        = "80"
-        protocol    = "HTTP"
-      }
-    }
-  }
+  # listeners = {
+  #   # ex-http-https-redirect = {
+  #   #   port     = 80
+  #   #   protocol = "HTTP"
+  #   #   redirect = {
+  #   #     port        = "443"
+  #   #     protocol    = "HTTPS"
+  #   #     status_code = "HTTP_301"
+  #   #   }
+  #   # }
+  #   ex-http-https-redirect = {
+  #     port     = 80
+  #     protocol = "HTTP"
+  #     redirect = {
+  #       port        = "443"
+  #       protocol    = "HTTPS"
+  #       status_code = "HTTP_301"
+  #     }
+  #   }
+  #   http = {
+  #     port     = 80
+  #     protocol = "HTTP"
+  #     redirect = {
+  #       port        = "80"
+  #       protocol    = "HTTP"
+  #     }
+  #   }
+  # }
 
   target_groups = {
     instance = {
