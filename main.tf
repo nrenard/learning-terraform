@@ -96,12 +96,7 @@ module "alb" {
     http = {
       port     = 80
       protocol = "HTTP"
-      redirect = {
-        port        = "80"
-        protocol    = "HTTP"
-        status_code = "HTTP_301"
-      }
-
+      
       forward = {
         target_group_key = "instance"
       }
