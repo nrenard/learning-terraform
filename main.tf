@@ -101,6 +101,10 @@ module "alb" {
         protocol    = "HTTP"
         status_code = "HTTP_301"
       }
+
+      forward = {
+        target_group_key = "instance"
+      }
     }
   }
 
