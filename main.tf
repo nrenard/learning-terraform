@@ -1,144 +1,140 @@
-# data "aws_ami" "app_ami" {
-#   most_recent = true
+data "aws_ami" "app_ami" {
+  most_recent = true
 
-#   filter {
-#     name   = "name"
-#     values = ["bitnami-tomcat-*-x86_64-hvm-ebs-nami"]
-#   }
+  filter {
+    name   = "name"
+    values = ["bitnami-tomcat-*-x86_64-hvm-ebs-nami"]
+  }
 
-#   filter {
-#     name   = "virtualization-type"
-#     values = ["hvm"]
-#   }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 
-#   owners = ["979382823631"] # Bitnami
-# }
+  owners = ["979382823631"] # Bitnami
+}
 
-<<<<<<< HEAD
 resource "aws_instance" "web" {
   ami           = data.aws_ami.app_ami.id
   instance_type = var.instance_type
-=======
-# data "aws_vpc" "default" {
-#   default = true
-# }
->>>>>>> e12863846645ab8a38b28752a609cb5ee676c7b0
+}
 
-# module "blog_vpc" {
-#   source = "terraform-aws-modules/vpc/aws"
+module "blog_vpc" {
+  source = "terraform-aws-modules/vpc/aws"
 
-#   name = "dev"
-#   cidr = "10.0.0.0/16"
+  name = "dev"
+  cidr = "10.0.0.0/16"
 
-#   azs             = ["us-east-2a", "us-east-2b", "us-east-2c"]
-#   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+  azs             = ["us-east-2a", "us-east-2b", "us-east-2c"]
+  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 
-#   tags = {
-#     Terraform = "true"
-#     Environment = "dev"
-#   }
-# }
+  tags = {
+    Terraform = "true"
+    Environment = "dev"
+  }
+}
 
-# resource "aws_instance" "blog" {
-#   ami           = data.aws_ami.app_ami.id
-#   instance_type = var.instance_type
+resource "aws_instance" "blog" {
+  ami           = data.aws_ami.app_ami.id
+  instance_type = var.instance_type
 
-#   vpc_security_group_ids = [module.blog_sg.security_group_id]
+  vpc_security_group_ids = [module.blog_sg.security_group_id]
 
-#   subnet_id =  module.blog_vpc.public_subnets[0]
+  subnet_id =  module.blog_vpc.public_subnets[0]
 
-#   tags = {
-#     Name = "HelloWorld"
-#   }
-# }
+  tags = {
+    Name = "HelloWorld"
+  }
+}
 
-# module "alb" {
-#   source = "terraform-aws-modules/alb/aws"
+module "alb" {
+  source = "terraform-aws-modules/alb/aws"
 
-#   name    = "blog-alb"
-#   vpc_id  = module.blog_vpc.vpc_id
-#   subnets = module.blog_vpc.public_subnets
-#   security_groups = [module.blog_sg.security_group_id]
+  name    = "blog-alb"
+  vpc_id  = module.blog_vpc.vpc_id
+  subnets = module.blog_vpc.public_subnets
+  security_groups = [module.blog_sg.security_group_id]
 
-#   # Security Group
-#   # security_group_ingress_rules = {
-#   #   all_http = {
-#   #     from_port   = 80
-#   #     to_port     = 80
-#   #     ip_protocol = "tcp"
-#   #     description = "HTTP web traffic"
-#   #     cidr_ipv4   = "0.0.0.0/0"
-#   #   }
-#   #   all_https = {
-#   #     from_port   = 443
-#   #     to_port     = 443
-#   #     ip_protocol = "tcp"
-#   #     description = "HTTPS web traffic"
-#   #     cidr_ipv4   = "0.0.0.0/0"
-#   #   }
-#   # }
-#   # security_group_egress_rules = {
-#   #   all = {
-#   #     ip_protocol = "-1"
-#   #     cidr_ipv4   = "10.0.0.0/16"
-#   #   }
-#   # }
+  # Security Group
+  # security_group_ingress_rules = {
+  #   all_http = {
+  #     from_port   = 80
+  #     to_port     = 80
+  #     ip_protocol = "tcp"
+  #     description = "HTTP web traffic"
+  #     cidr_ipv4   = "0.0.0.0/0"
+  #   }
+  #   all_https = {
+  #     from_port   = 443
+  #     to_port     = 443
+  #     ip_protocol = "tcp"
+  #     description = "HTTPS web traffic"
+  #     cidr_ipv4   = "0.0.0.0/0"
+  #   }
+  # }
+  # security_group_egress_rules = {
+  #   all = {
+  #     ip_protocol = "-1"
+  #     cidr_ipv4   = "10.0.0.0/16"
+  #   }
+  # }
 
-#   # listeners = {
-#   #   # ex-http-https-redirect = {
-#   #   #   port     = 80
-#   #   #   protocol = "HTTP"
-#   #   #   redirect = {
-#   #   #     port        = "443"
-#   #   #     protocol    = "HTTPS"
-#   #   #     status_code = "HTTP_301"
-#   #   #   }
-#   #   # }
-#   #   ex-http-https-redirect = {
-#   #     port     = 80
-#   #     protocol = "HTTP"
-#   #     redirect = {
-#   #       port        = "443"
-#   #       protocol    = "HTTPS"
-#   #       status_code = "HTTP_301"
-#   #     }
-#   #   }
-#   #   http = {
-#   #     port     = 80
-#   #     protocol = "HTTP"
-#   #     redirect = {
-#   #       port        = "80"
-#   #       protocol    = "HTTP"
-#   #     }
-#   #   }
-#   # }
+  listeners = {
+    # ex-http-https-redirect = {
+    #   port     = 80
+    #   protocol = "HTTP"
+    #   redirect = {
+    #     port        = "443"
+    #     protocol    = "HTTPS"
+    #     status_code = "HTTP_301"
+    #   }
+    # }
+    # ex-http-https-redirect = {
+    #   port     = 80
+    #   protocol = "HTTP"
+    #   redirect = {
+    #     port        = "443"
+    #     protocol    = "HTTPS"
+    #     status_code = "HTTP_301"
+    #   }
+    # }
+    http = {
+      port     = 80
+      protocol = "HTTP"
+      redirect = {
+        port        = "80"
+        protocol    = "HTTP"
+        status_code = "HTTP_301"
+      }
+    }
+  }
 
-#   target_groups = {
-#     instance = {
-#       name_prefix      = "blog-"
-#       protocol         = "HTTP"
-#       port             = 80
-#       target_type      = "instance"
-#       target_id        = aws_instance.blog.id
-#     }
-#   }
+  target_groups = {
+    instance = {
+      name_prefix      = "blog-"
+      protocol         = "HTTP"
+      port             = 80
+      target_type      = "instance"
+      target_id        = aws_instance.blog.id
+    }
+  }
 
-#   tags = {
-#     Environment = "Development"
-#     Project     = "Example"
-#   }
-# }
+  tags = {
+    Environment = "Development"
+    Project     = "Example"
+  }
+}
 
-# module "blog_sg" {
-#   source  = "terraform-aws-modules/security-group/aws"
-#   version = "5.2.0"
-#   name = "blog"
+module "blog_sg" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "5.2.0"
+  name = "blog"
   
-#   vpc_id = module.blog_vpc.vpc_id
+  vpc_id = module.blog_vpc.vpc_id
 
-#   ingress_rules       = ["http-80-tcp", "https-443-tcp"]
-#   ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_rules       = ["http-80-tcp", "https-443-tcp"]
+  ingress_cidr_blocks = ["0.0.0.0/0"]
 
-#   egress_rules        = ["all-all"]
-#   egress_cidr_blocks = ["0.0.0.0/0"]
-# }
+  egress_rules        = ["all-all"]
+  egress_cidr_blocks = ["0.0.0.0/0"]
+}
