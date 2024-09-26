@@ -38,7 +38,7 @@ module "autoscaling" {
 
   vpc_zone_identifier = module.blog_vpc.public_subnets
   # target_group_arns   = [module.blog_alb.arn]
-  security_groups     = [module.blog_sg.security_group_id]
+  # security_groups     = [module.blog_sg.security_group_id]
 
   image_id      = data.aws_ami.app_ami.id
   instance_type = var.instance_type
@@ -55,7 +55,7 @@ module "blog_alb" {
   name            = "blog-alb"
   vpc_id          = module.blog_vpc.vpc_id
   subnets         = module.blog_vpc.public_subnets
-  # security_groups = [module.blog_sg.security_group_id]
+  security_groups = [module.blog_sg.security_group_id]
 
   enable_deletion_protection = false
 
@@ -76,7 +76,7 @@ module "blog_alb" {
       protocol         = "HTTP"
       port             = 80
       target_type      = "instance"
-      target_id        = module.autoscaling.autoscaling_group_id
+      target_id        = module.autoscaling.autoscaling_group_arn
     }
   }
 
