@@ -40,3 +40,8 @@ variable "asg_max_size" {
   description = "Maximum number of instances in the ASG"
   default     = 2
 }
+
+variable "region" {
+  description = "Define the region"
+  default     = "us-east-2"
+}
